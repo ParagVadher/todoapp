@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<head>
+    <title>Todo App</title>
+    <h1>The TODO App</h1>
+</head>
+<body>
+    <form action="/" method="POST">
+        <input type="text" name="task0" placeholder="enter a task">
+        <button type="submit">Add Task</button>
+    </form>
+    <ul>
+        <% eTask.forEach(function(values){ %>
+        <li>
+            <%= values.content %>
+            <a href="/edit/<%= values._id %>">edit</a>
+            <a href="/delete/<%= values._id %>">delete</a>
+        </li>
+        <% }); %>
+    </ul>
+</body>
