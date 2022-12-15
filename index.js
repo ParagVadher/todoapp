@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const port = 8000;
 
+// json data debug
+const bodyParser = require('body-parser').json();
+
 // require the task model from config folder
 const task = require('./models/tasks');
 
@@ -84,6 +87,67 @@ app.route("/delete/:id").get((req, res) => {
         res.redirect("/");
     });
 });
+
+// apis
+// api - list tasks
+app.get('/api/list', async function(req, res){
+    let task0 = await task.find({});
+
+    return res.status(200).json({
+        message: "List of all tasks",
+        task: task0
+    });
+});
+
+// api - deletes tasks
+app.delete('/api/:id', async function(req, res){
+
+    try {
+        let task0 = await task.findById(req.params.id);
+        task0.remove();
+        return res.json(200, {
+            message: "Task deleted"
+        })
+    } catch (err) {
+        console.log('Error found: ', err);
+        return res.status(500).json({
+                message: "Internal server error"
+            });
+    }
+
+});
+
+// api - creates task
+app.post('/api/create', bodyParser, async function(req, res){
+    const data = new task({
+        content: req.body.content
+    });
+    try {
+        const dataToSave = await data.save();
+        res.status(200).json(dataToSave)
+    }
+    catch (error) {
+        res.status(400).json({message: error.message})
+    }
+})
+
+// updates task
+app.patch('/api/update/:id', async function(req, res){
+    try {
+        const id = req.params.id;
+        const updatedData = req.body;
+        const options = { new: true };
+
+        const result = await task.findByIdAndUpdate(
+            id, updatedData, options
+        )
+
+        res.send(result)
+    }
+    catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+})
 
 app.listen(port, function(err){
     if(err){
