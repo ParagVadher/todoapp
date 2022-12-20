@@ -46,7 +46,7 @@ app.post('/', async function (req, res) {
         task1.save();
         res.redirect('/');
     } catch (err) {
-        console.log('Error aa gaya: ', err);
+        console.log('Error in creating task(prolly blank task added): ', err);
         return;
     }
 });
@@ -138,6 +138,7 @@ app.patch('/api/update/:id', async function(req, res){
         const updatedData = req.body;
         const options = { new: true };
 
+        console.log('** updated data: ', updatedData);
         const result = await task.findByIdAndUpdate(
             id, updatedData, options
         )
