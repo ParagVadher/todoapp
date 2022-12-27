@@ -1,5 +1,7 @@
 const express = require('express');
+
 const app = express();
+const path = require('path');
 const port = 8000;
 
 // json data debug
@@ -11,11 +13,20 @@ const task = require('./models/tasks');
 // require teh config mongoose file
 const db1 = require('./config/mongoose');
 
+// static file setup
+// app.use('/assets', express.static('assets'));
+
 // view engine is ejs as requested
+app.set('views', './views');
 app.set('view engine', 'ejs');
 
 // Use url encoding to fetch data from ejs forms in encoded form(big error if this gaayab)
 app.use(express.urlencoded({extended: true}));
+
+// assets folder to access the scss/js files
+app.use(express.static(path.join(__dirname, '/assets')));
+
+
 
 // display tasks
 app.get('/', function(req, res){
