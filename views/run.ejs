@@ -1,22 +1,33 @@
 <!DOCTYPE html>
 <head>
     <title>Todo App</title>
-    <h1>The TODO App</h1>
     <link rel="stylesheet" href="css/main.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://kit.fontawesome.com/62de8261c3.js" crossorigin="anonymous"></script>
 
 </head>
 <body>
-    <form action="/" method="POST">
-        <input type="text" name="task0" placeholder="enter a task">
-        <button type="submit">Add Task</button>
-    </form>
-    <ul>
-        <% eTask.forEach(function(values){ %>
-        <li>
-            <%= values.content %>
-            <a href="/edit/<%= values._id %>">edit</a>
-            <a href="/delete/<%= values._id %>">delete</a>
-        </li>
-        <% }); %>
-    </ul>
+    <div class="outline">
+        <h1>The TODO App</h1>
+        <form action="/" method="POST" class="add">
+            <input type="text" name="task0" placeholder="enter a task">
+            <button type="submit" class="add-button0">Add Task</button>
+        </form>
+        <ul>
+            <% eTask.forEach(function(values){ %>
+            <div class="task">
+                <li>
+                    <%= values.content %>
+                    <div class="task-btns">
+                        <a href="/edit/<%= values._id %>" class="edit-button0"><i class="fa-solid fa-pen"></i></a>
+                        <a href="/delete/<%= values._id %>" class="edit-button0"><i class="fa-solid fa-circle-xmark"></i></a>
+                    </div>
+                    </li><br/>
+                </li>
+            </div>
+            <% }); %>
+        </ul>
+    </div>
+<script type="text/javascript" src="/js/home.js"></script>
 </body>
+</html>

@@ -1,3 +1,154 @@
+html {
+  background-color:#d50000;
+  background-image: 
+    repeating-linear-gradient(
+      45deg,
+      rgba(0,0,0,0.8),
+      rgba(0,0,0,0.8) 100px,
+      transparent 0px,
+      transparent 200px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(0,0,0,0.5),
+      rgba(0,0,0,0.5) 100px,
+      transparent 0px,
+      transparent 200px
+    );
+}
+
 body {
-  background-color: lightblue;
+  display: grid;
+  height: 100vh;
+  margin: 0;
+  place-items: center;
+  font-family: 'Work Sans', sans-serif;
+}
+
+h1 {
+  border: 1px dashed #fff;
+  padding: 1rem 3rem;
+  color:#fff;
+  text-align: center;
+}
+
+/* no bullets */
+ul{
+  list-style-type: none;
+  margin-left: 0%;
+}
+
+li {
+  background: #b06c25;
+  border: 1px dashed #fff;
+  padding: 1rem 3rem;
+  outline:5px solid #b06c25;
+  color:#fff;
+  text-align: center;
+  text-shadow:1px 1px #83511d;
+}
+
+.add{
+  display: flex;
+  justify-content: space-between;
+}
+/* outline for the div that contains the form as well */
+/* .outline{
+  border: 1px dashed #fff;
+  padding: 1rem 3rem;
+  height: 80%;
+} */
+
+/* add task button */
+.add-button0 {
+  border: none;
+  border-radius: 10%;
+  position: relative;
+  min-width: 20%;
+  /* margin-left: 38%;
+  margin-right: 0.1%; */
+  min-height: 50%;
+  line-height: 190%;
+  background-color: rgb(216, 10, 10);
+
+  font-weight: bold;
+  font-family: sans-serif;
+
+  /* border: 1px dashed #fff; */
+  /* padding: 1rem 1rem; */
+  /* outline: 3px solid red; */
+  color:#fff;
+  text-align: center;
+}
+
+.add-button0:hover{
+  border-bottom: 2px solid black;
+  border-right: 2px solid #000000;
+  background-color: #d50000;
+  text-shadow:1px 3px #000000;
+  color: #fff3e6;
+  cursor: pointer;
+}
+
+/* position buttons */
+.task-btns{
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* edit and delete button */
+.edit-button0 {
+  border: none;
+  /* border-radius: 5px; */
+  position: relative;
+  /* min-width: 100px; */
+  /* margin-left: 85px; */
+  /* margin-right: 10px; */
+  min-height: 25%;
+  line-height: 150%;
+  /* background-color: rgb(216, 10, 10); */
+
+  /* font-weight: bold; */
+  /* font-family: sans-serif; */
+
+  /* border: 1px dashed #fff; */
+  padding: 2%;
+  /* outline: 3px solid red; */
+  color:#f0f0f0;
+  /* text-align: center; */
+}
+
+.edit-button0:hover{
+  /* border-bottom: 2px solid black;
+  border-right: 2px solid #000000;
+  background-color: #d50000; */
+  text-shadow:1px 3px #000000;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* input styling */
+input{
+  border: none;
+  border-radius: 5px;
+  position: relative;
+  min-width: 20%;
+  /* margin-left: 38%;
+  margin-right: 0.1%; */
+  min-height: 50%;
+  line-height: 190%;
+  background-color: rgb(255, 230, 230);
+
+  font-weight: bold;
+  font-family: sans-serif;
+  color:#fff;
+  text-align: center;
+}
+
+input:hover{
+  border-bottom: 2px solid black;
+  border-right: 2px solid #000000;
+  background-color: #ffffff;
+  color: #fff3e6;
+  cursor: pointer;
 }

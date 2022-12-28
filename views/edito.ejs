@@ -1,34 +1,41 @@
 <!DOCTYPE html>
 <head>
     <title>Todo App</title>
-    <h1>The TODO App</h1>
-    <link rel="stylesheet" href="css/layout.css" type="text/css">
-    <link rel="stylesheet" href="css/layout.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://kit.fontawesome.com/62de8261c3.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <form action="" method="POST">
-        <input type="text" name="task0" placeholder="enter a task">
-        <button type="submit">Add Task</button>
-    </form>
-    <ul>
-        <% eTask.forEach(function(values){ %>
-            <% if(values._id == id0){ %> 
-                <li>
-                    <form action="/edit/<%= values._id %>" method="POST">
-                        <input type="text" value="<%= values.content %>" name="task0">
-                        <button type="submit">Change</button>
-                        <a href="/">Cancel</a>
-                    </form>
-                </li>
-                <% }else{ %>
-                    <li>
-                        <%= values.content %>
-                        <a href="/edit/<%= values._id %>">edit</a>
-                        <a href="/delete/<%= values._id %>">delete</a>
-                    </li>
-                <% } %>
-        <% }); %>
-    </ul>
-<script type="text/javascript" src="/js/home.js"></script>
+    <div class="outline">
+        <h1>Enter edited content</h1>
+        <form action="" method="POST" class="add">
+            <input type="text" name="task0" placeholder="enter a task">
+            <button type="submit" class="add-button0">Add Task</button>
+        </form>
+        <ul>
+            <% eTask.forEach(function(values){ %>
+                <% if(values._id == id0){ %> 
+                    <div class="task">
+                        <li>
+                            <form action="/edit/<%= values._id %>" method="POST">
+                                <input type="text" value="<%= values.content %>" name="task0">
+                                <button type="submit">Change</button>
+                                <a href="/">Cancel</a>
+                            </form>
+                        </li>
+                    </div>
+                    <% }else{ %>
+                        <div class="task">
+                            <li>
+                                <%= values.content %>
+                                <div class="task-btns">
+                                    
+                                </div>
+                                
+                            </li>
+                        </div>
+                    <% } %>
+            <% }); %>
+        </ul>
+    </div>
 </body>
 </html>
