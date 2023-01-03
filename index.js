@@ -16,6 +16,8 @@ const db1 = require('./config/mongoose');
 // static file setup
 // app.use('/assets', express.static('assets'));
 
+const nodemailer = require('nodemailer');
+
 // view engine is ejs as requested
 app.set('views', './views');
 app.set('view engine', 'ejs');
@@ -26,7 +28,17 @@ app.use(express.urlencoded({extended: true}));
 // assets folder to access the scss/js files
 app.use(express.static(path.join(__dirname, '/assets')));
 
-
+// // transpoter obeject to send emails
+// let transporter = nodemailer.createTransport({
+//     service: 'gmail.com',
+//     host: 'smtp.gmail.com',
+//     port: '587',
+//     secure: 'false',
+//     auth: {
+//         user: 'paragv0twitch@gmail.com',
+//         pass: 'nbujtcfucjwbuscb'
+//     }
+// });
 
 // display tasks
 app.get('/', function(req, res){
@@ -142,7 +154,7 @@ app.post('/api/create', bodyParser, async function(req, res){
     }
 })
 
-// updates task
+// api - updates task
 app.patch('/api/update/:id', async function(req, res){
     try {
         const id = req.params.id;
@@ -157,10 +169,70 @@ app.patch('/api/update/:id', async function(req, res){
         res.send(result)
     }
     catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(400).json({ message: error.message });
     }
 })
 
+// mailoptions to send the email
+// let mailOptions = {
+//     from: "paragv0twitch@gmail.com",
+//     to: "vadherparag@gmail.com",
+//     subject: 'Nodemailer Project',
+//     text: 'Hi from your nodemailer project'
+//   };
+
+// api to send emails
+// let emailgo = transporter.sendMail(mailOptions, function(err, data) {
+//       if (err) {
+//         console.log("Error " + err);
+//       } else {
+//         console.log("Email sent successfully");
+//       }
+//     });
+
+app.post('/api/sendEmail', bodyParser, async function(req, res){
+
+    
+    // transpoter obeject to send emails
+    let transporter = await nodemailer.createTransport({
+        service: 'gmail.com',
+        host: 'smtp.gmail.com',
+        port: '587',
+        secure: 'false',
+        auth: {
+            user: 'paragv0twitch@gmail.com',
+            pass: 'nbujtcfucjwbuscb'
+        }
+    });
+
+    let mailOptions = {
+        from: "paragv0twitch@gmail.com",
+        // to: "vadherparag@gmail.com",
+        // subject: 'Nodemailer Project',
+        // text: 'Hi from your nodemailer project'
+        to: req.body.to,
+        subject: req.body.subject,
+        text: req.body.text
+      };
+
+    //   console.log("mailOptions: ", mailOptions);
+    try {
+        transporter.sendMail(mailOptions, function(err, data) {
+            if (err) {
+              console.log("Error " + err);
+            } else {
+            //   console.log("Email sent successfully");
+              res.status(200).send(req.body);
+            }
+          });
+    } catch (error) {
+        res.status(400).json({ message: error });
+    }
+
+});
+
+
+// checking connection
 app.listen(port, function(err){
     if(err){
         console.log(`error in connecting to port ${port}`);
