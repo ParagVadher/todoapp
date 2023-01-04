@@ -1,8 +1,20 @@
 const express = require('express');
 
 const app = express();
+
+// require jwt
+const jwt = require('jsonwebtoken');
+app.use(express.json());
+
 const path = require('path');
-const port = 8000;
+
+// require dotenv
+const dotenv = require('dotenv');
+
+// Set up Global configuration access
+dotenv.config();
+
+const port = process.env.PORT || 8000;
 
 // json data debug
 const bodyParser = require('body-parser').json();
@@ -17,6 +29,7 @@ const db1 = require('./config/mongoose');
 // app.use('/assets', express.static('assets'));
 
 const nodemailer = require('nodemailer');
+const { json } = require('body-parser');
 
 // view engine is ejs as requested
 app.set('views', './views');
@@ -28,19 +41,35 @@ app.use(express.urlencoded({extended: true}));
 // assets folder to access the scss/js files
 app.use(express.static(path.join(__dirname, '/assets')));
 
-// // transpoter obeject to send emails
-// let transporter = nodemailer.createTransport({
-//     service: 'gmail.com',
-//     host: 'smtp.gmail.com',
-//     port: '587',
-//     secure: 'false',
-//     auth: {
-//         user: 'paragv0twitch@gmail.com',
-//         pass: 'nbujtcfucjwbuscb'
-//     }
-// });
+// send jwtoken in response
+app.post("/api/user/generateToken", (req, res) => {
+    // Validate User Here
+    // Then generate JWT Token
+  
+    let jwtSecretKey = process.env.ACCESS_TOKEN_SECRET;
+    let data = {
+        id: 1,
+        username: "Parag",
+        email: "vadherparag@gmail.com"
+    }
+  
+    const token = jwt.sign({data: data}, jwtSecretKey);
+  
+    res.send(token);
+});
 
-// display tasks
+function verifyToken(req, res, next){
+    const bearerThing = req.headers['authorization'];
+    if(typeof bearerThing !== "undefined"){
+        const token = bearerThing && bearerThing.split(' ')[1];
+        req.token =token;
+        next();
+    }else{
+        res.sendStatus(403); //forbidden
+    }
+}
+
+// display tasks on home
 app.get('/', function(req, res){
     // console.log('1. This is the request: ', req);
     task.find({}, function(err, tasks){
@@ -113,7 +142,7 @@ app.route("/delete/:id").get((req, res) => {
 
 // apis
 // api - list tasks
-app.get('/api/list', async function(req, res){
+app.get('/api/list', verifyToken, async function(req, res){
     let task0 = await task.find({});
 
     return res.status(200).json({
@@ -171,7 +200,7 @@ app.patch('/api/update/:id', async function(req, res){
     catch (error) {
         res.status(400).json({ message: error.message });
     }
-})
+});
 
 // mailoptions to send the email
 // let mailOptions = {
@@ -231,14 +260,11 @@ app.post('/api/sendEmail', bodyParser, async function(req, res){
 
 });
 
-
 // checking connection
 app.listen(port, function(err){
     if(err){
         console.log(`error in connecting to port ${port}`);
         return;
     }
-
     console.log(`Connected successfully to post ${port}`);
-
 });
